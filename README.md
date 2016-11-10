@@ -8,6 +8,10 @@ Thanks to everyone for the feedback and contributions.
 ### Changelog
 
 **Module version now available (for Ti Classic)**
+
+**1.02.20**
+* Added onItemLongPress method
+
 **1.02.01**
 * Code cleanup
 
