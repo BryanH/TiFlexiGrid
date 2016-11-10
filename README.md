@@ -3,18 +3,20 @@
 
 An Alloy Widget for creating flexible grid layouts in iOS and Android. It works on phones and tablets in any orientation.  Now you can create your own custom grid items and assign them to TiFlexiGrid . You can set different grid parameters depending the orientations, each item could have it's own layout, add a custom function when an item is clicked, add a single item or group of items, clear the grid, etc. Please refer to the sample project to see it in action.
 
-Thanks to everyone for the feedback and contributions. It's awesome to see so many people using my widget. If anyone have some ideas, requests, contributions or want to show how you are using the widget , contact me at [@pablorr18](http://twitter.com/pablorr18). Another cool widget is coming very soon.
+Thanks to everyone for the feedback and contributions.
 
 ### Changelog
 
 **Module version now available (for Ti Classic)**
+**1.02.01**
+* Code cleanup
 
 **1.2**
 * New parameters, methods and functions (even more flexible). More info below.
 * New onItemClick event
 * Optimizations for Android (both handsets and tablets)
 * Fixed issue about images not loading (iOS)
-* New sample for both iOS and Android  (Cross-Platform Image Gallery Sample) 
+* New sample for both iOS and Android  (Cross-Platform Image Gallery Sample)
 * General bug fixes
 
 **1.1**
@@ -23,7 +25,7 @@ Thanks to everyone for the feedback and contributions. It's awesome to see so ma
 * thumbnail generator in gallery layout (iOS only for now)
 * general bug fixes
 
-**1.0** 
+**1.0**
 * Initial Release
 
 ### Screenshots
@@ -53,7 +55,7 @@ Add the widget to a window or view:
 <Alloy>
 	<Window id="fgWin">
 		<Require type="widget" src="com.prodz.tiflexigrid" id="fg"/>
-	</Window>		
+	</Window>
 </Alloy>
 ```
 
@@ -98,23 +100,23 @@ var sample_data = [
 	];
 
 for (var x=0; x < sample_data.length; x++){
-	
+
 	//CREATES A VIEW WITH OUR CUSTOM LAYOUT
 	var view = Alloy.createController('YOUR_CUSTOM_LAYOUT_CONTROLLER').getView();
-		
+
 	//THIS IS THE DATA THAT WE WANT AVAILABLE FOR THIS ITEM WHEN onItemClick OCCURS
 	var values = {
 		title: sample_data[x].title,
 		image: sample_data[x].image
 	};
-		
+
 	//NOW WE PUSH TO THE ARRAY THE VIEW AND THE DATA
 	items.push({
 		view: view,
 		data: values
 	});
 };
-	
+
 //ADD ALL THE ITEMS TO THE GRID
 $.fg.addGridItems(items);
 
@@ -162,16 +164,16 @@ Please refer to the Image Gallery Sample included in the project to see it in ac
 * view - a view with the custom layout
 * data - the data we want available when an item is clicked
 
-**clearGrid()** - clears all the elements of the grid. 
+**clearGrid()** - clears all the elements of the grid.
 
 **setOnItemClick(function)** - set the event that will trigger once an item from the grid is clicked
 
-**openModal(url)** - opens an image with a "pop-up" effect. 
+**openModal(url)** - opens an image with a "pop-up" effect.
 
 ### Note for Android
 
-The widget uses anydensity = true and system units as dp (now default in the latest Titanium SDK) in the tiapp.xml. 
- 
+The widget uses anydensity = true and system units as dp (now default in the latest Titanium SDK) in the tiapp.xml.
+
  You can use something like this in your tiapp.xml:
 ```xml
 <property name="ti.ui.defaultunit" type="string">dp</property>
@@ -183,14 +185,14 @@ The widget uses anydensity = true and system units as dp (now default in the lat
         </manifest>
    </android>
 ```
-See the tiapp.xml in the sample project for more details. 
+See the tiapp.xml in the sample project for more details.
 
 To understand it better, please refer to the sample project included.
 
 ###License
 The MIT License (MIT)
 
-Copyright (c) 2014 Pablo Rodriguez Ruiz, [@pablorr18](http://twitter.com/pablorr18) 
+Copyright 2014 Pablo Rodriguez Ruiz, [@pablorr18](http://twitter.com/pablorr18)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
