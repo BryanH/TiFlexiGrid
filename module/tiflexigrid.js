@@ -1,21 +1,18 @@
 /* globals Ti, OS_IOS, exports */
 /*
- * TiFlexiGrid v.1.2
- * The commonJS module version of TiFlexiGrid, an Alloy Widget for creating flexible grid layouts in iOS and Android.
- * It works on phones and tablets in any orientation. Now you can create your
- * own custom grid items and assign them to TiFlexiGrid . You can set different
- * grid parameters depending the orientations, each item could have it's own layout,
- * add a custom function when an item is clicked, add a single item or group of items,
- * clear the grid, etc. Please refer to the sample project to see it in action.
+ * TiFlexiGrid v.1.02.20
  *
- * Thanks to everyone for the feedback and contributions. It's awesome to see so many
- * people using my widget. If anyone have some ideas, requests, contributions or want
- * to show how you are using the widget , contact me at @pablorr18.
+ * The commonJS module version of TiFlexiGrid, an Alloy Widget for
+ * creating flexible grid layouts in iOS and Android.
  *
- * Copyright (c) 2014 Pablo Rodriguez Ruiz, @pablorr18
+ * It works on phones and tablets in any orientation.
+ *
+ * Copyright 2014 Pablo Rodriguez Ruiz, @pablorr18
+ *
+ * Licensed under The MIT License (MIT)
  */
 'use strict';
-var params, columns, space, data, screenWidth, newWidth, columnWidth, frameBGcolor, itemsOptions, onItemClick;
+var params, columns, space, data, screenWidth, newWidth, columnWidth, frameBGcolor, itemsOptions, onItemClick, onItemLongPress;
 var OS = Ti.Platform.osname;
 
 var fgMain = Ti.UI.createView( {
@@ -56,16 +53,15 @@ var init = function( opts ) {
     newWidth = screenWidth - space;
     columnWidth = ( newWidth / columns ) - space;
 
-    //ADJUST THE SCROLLVIEW
+    // Adjust the scrollview
     fgScrollView.left = space;
     fgScrollView.top = space;
     fgScrollView.right = -1;
 
-    //MAIN BG COLOR
+    // Main bg color
     frameBGcolor = params.gridBackgroundColor || '#fff';
     fgMain.backgroundColor = frameBGcolor;
 
-    //ITEMS OPTIONS
     itemsOptions = {
         heightDelta: params.itemHeightDelta || 0,
         backgroundColor: params.itemBackgroundColor || 'transparent',
@@ -74,10 +70,13 @@ var init = function( opts ) {
         borderRadius: params.itemBorderRadius || 0
     };
 
-    //ITEM CLICK FUNCTION
     onItemClick = params.onItemClick || function() {
         Ti.API.info( 'TiFlexiGrid -> onItemClick is not defined.' );
     };
+
+    onItemLongPress = params.onItemLongPress || function() {
+        Ti.API.info( 'TiFlexiGrid -> onItemLongPress is not defined.' );
+    }
 
     Ti.API.info( 'TiFlexiGrid -> Widget initialized.' );
     Ti.API.info( 'TiFlexiGrid -> Items dimension: ' + columnWidth + ' x ' + ( columnWidth + itemsOptions.heightDelta ) );
@@ -118,10 +117,12 @@ var addGridItem = function( item ) {
 
     var gridElement = item.view;
 
-    //ADD CUSTOM FUNCTION ONCE AN ITEM IS CLICKED
     overlay.addEventListener( 'click', function( e ) {
-        onItemClick( e );
-    } );
+            onItemClick( e );
+        } )
+        .addEventListener( 'longpress', function( e ) {
+            onItemLongPress( e );
+        } );
 
     frame.add( gridElement );
     frame.add( overlay );
@@ -155,13 +156,13 @@ var openModal = function( url ) {
     fgMain.add( overlay );
 
     if( OS != 'android' ) {
-        //ANIMATION OF OVERLAY
+        // Overlay animation
         overlay.animate( {
             opacity: 0.7,
             duration: 200
         } );
 
-        //ANIMATION FOR POP EFFECT
+        // Pop-effect animation
         var t = Ti.UI.create2DMatrix();
         t = t.scale( 0 );
         var a = Ti.UI.createAnimation();
@@ -188,7 +189,7 @@ var openModal = function( url ) {
             } );
         } );
     } else {
-        //ANIMATION OF OVERLAY
+        // Overlay animation
         overlay.animate( {
             opacity: 0.7,
             duration: 200
@@ -249,11 +250,19 @@ var getItemHeight = function() {
     return columnWidth + itemsOptions.heightDelta;
 };
 
+/** TODO: DRY this up with the same stuff above */
 var setOnItemClick = function( fnt ) {
     onItemClick = fnt || function() {
         Ti.API.info( 'TiFlexiGrid -> onItemClick is not defined.' );
     };
 };
+
+var setOnItemLongPress = function( fnt ) {
+    onItemLongPress = fnt || function() {
+        Ti.API.info( 'TiFlexiFrid -> onItemLongPress is not defined.' );
+    };
+};
+/************** /DRY *****************/
 
 exports.init = init;
 exports.addGridItems = addGridItems;
